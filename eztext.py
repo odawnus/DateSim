@@ -2,6 +2,8 @@
 from pygame.locals import *
 import pygame, string
 
+
+
 class ConfigError(KeyError): pass
 
 class Config:
@@ -41,11 +43,18 @@ class Input:
 
     def draw(self, surface):
         """ Draw the text input to a surface """
+
         text = self.font.render(self.prompt+self.value, 1, self.color)
         surface.blit(text, (self.x, self.y))
 
+    def draw2(self, surface):
+        """ Draw the text input to a surface """
+        text = self.font.render(("")+self.value, 1, self.color)
+        surface.blit(text, (self.x, self.y))
+        
     def update(self, events):
         """ Update the input based on passed events """
+            
         for event in events:
             if event.type == KEYUP:
                 if event.key == K_LSHIFT or event.key == K_RSHIFT: self.shifted = False
@@ -149,5 +158,18 @@ class Input:
                     elif event.key == K_COMMA and '<' in self.restricted: self.value += '<'
                     elif event.key == K_PERIOD and '>' in self.restricted: self.value += '>'
                     elif event.key == K_SLASH and '?' in self.restricted: self.value += '?'
+                global gametext
+                gametext = int(self.value)
 
+
+            
+            
+            
         if len(self.value) > self.maxlength and self.maxlength >= 0: self.value = self.value[:-1]
+
+
+gametext = 0
+            
+        
+    
+

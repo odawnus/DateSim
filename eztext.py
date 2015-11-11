@@ -4,6 +4,8 @@ import pygame, string
 
 
 
+gametext2 = 0
+
 class ConfigError(KeyError): pass
 
 class Config:
@@ -19,6 +21,7 @@ class Config:
 
 class Input:
     """ A text input for pygame apps """
+    
     def __init__(self, **options):
         """ Options: x, y, font, color, restricted, maxlength, prompt """
         self.options = Config(options, ['x', '0'], ['y', '0'], ['font', 'pygame.font.Font(None, 32)'],
@@ -43,13 +46,12 @@ class Input:
 
     def draw(self, surface):
         """ Draw the text input to a surface """
-
         text = self.font.render(self.prompt+self.value, 1, self.color)
         surface.blit(text, (self.x, self.y))
 
     def draw2(self, surface):
         """ Draw the text input to a surface """
-        text = self.font.render(("")+self.value, 1, self.color)
+        text = self.font.render(("Oh nice to meet you, do you want to be friends? ")+self.value, 1, self.color)
         surface.blit(text, (self.x, self.y))
         
     def update(self, events):
@@ -158,10 +160,24 @@ class Input:
                     elif event.key == K_COMMA and '<' in self.restricted: self.value += '<'
                     elif event.key == K_PERIOD and '>' in self.restricted: self.value += '>'
                     elif event.key == K_SLASH and '?' in self.restricted: self.value += '?'
+
                 global gametext
                 gametext = int(self.value)
 
 
+    def restart(self,events):
+        for event in events:
+            if event.type == KEYDOWN:
+                if event.key == K_RETURN: self.value = ''
+            if gametext2 == 1:
+                self.prompt = 'Why are you here? '
+            if gametext2 == 2:
+                self.prompt = 'Oh how did you get there? '                
+            if gametext2 == 3:
+                self.prompt = 'Just go away! '                
+
+                    
+        
             
             
             
@@ -169,7 +185,7 @@ class Input:
 
 
 gametext = 0
-            
-        
+
+
     
 
